@@ -68,11 +68,16 @@ export default function App() {
     const { fname, lname, bio } = inputValues;
     const newTeamMember = { fname, lname, bio, id: getId() };
     setMembers([...members, newTeamMember]);
-    setInputValues(formValues);
   };
   const editExistingMember = () => {
     // ✨ This takes the values of the form and replaces the data of the
     // member in the `members` state whose id matches the `editing` state
+    setMembers(previousMembers => previousMembers.map(mem => {
+      if (mem.id == editing) {
+        return {...mem, ...inputValues}
+      }
+      return mem
+    }))
   };
   const onSubmit = (evt) => {
     // ✨ This is the submit handler for your form element.
@@ -81,7 +86,12 @@ export default function App() {
     // Don't allow the page to reload! Prevent the default behavior
     // and clean up the form after submitting
     evt.preventDefault();
-    submitNewMember();
+    if (editing) {
+      editExistingMember()
+    } else {
+      submitNewMember()
+    }
+    setInputValues(formValues);
   };
   return (
     <div>
