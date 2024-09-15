@@ -78,6 +78,7 @@ export default function App() {
       }
       return mem
     }))
+    setEditing(null)
   };
   const onSubmit = (evt) => {
     // ✨ This is the submit handler for your form element.
